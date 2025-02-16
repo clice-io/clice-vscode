@@ -20,13 +20,42 @@
         "clice-client.trace.server": {
           "default": "verbose"
         },
-        "clice.compile_commands_dir": {
+        "clice.executable": {
           "type": "string",
-          "default": "/build",
-          "description": "The directory where compile_commands.json is located"
+          "default": "",
+          "description": "The path of clice executable."
+        },
+        "clice.config": {
+          "type": "string",
+          "default": "",
+          "description": "The path of clice config file."
+        },
+        "clice.mode": {
+          "type": "string",
+          "default": "pipe",
+          "description": "How to communicate with clice. pipe or socket. For daily use, pipe is recommended. Socket is mainly for debugging."
         }
       }
-    }
+    },
+    "commands": [
+      {
+        "command": "clice.indexAll",
+        "title": "Index All Files",
+        "category": "clice"
+      },
+      {
+        "command": "clice.indexCurrent",
+        "title": "Index Current File",
+        "category": "clice"
+      }
+    ],
+    "semanticTokenTypes": [
+      {
+        "id": "attribute",
+        "description": "MSVC/GNU/C++11/C23 attribute",
+        "superType": "macro"
+      }
+    ]
   },
   "main": "./dist/extension.js",
   "scripts": {
