@@ -2,11 +2,82 @@ import * as net from 'net';
 import * as path from 'path';
 import * as vscode from 'vscode';
 import { workspace, window, ExtensionContext, OutputChannel } from 'vscode';
-import { LanguageClient, LanguageClientOptions, ServerOptions, Trace, StreamInfo } from 'vscode-languageclient/node';
+import { LanguageClient, LanguageClientOptions, ServerOptions, Trace, StreamInfo, TextDocumentIdentifier } from 'vscode-languageclient/node';
 
-import { highlightDocument } from './SemanticHighlight';
+import { highlightDocument } from './feature/SemanticHighlight';
+import { HeaderContext, HeaderContextProvider, TreeItem, IncludeLocation, HeaderContextSwitchParams } from './feature/HeaderContexts';
 
 let client: LanguageClient;
+let provider: HeaderContextProvider | undefined = undefined;
+
+class TextDocumentParams {
+	constructor(public textDocument: TextDocumentIdentifier) { }
+};
+
+export function actionFile() {
+	return new TextDocumentParams({ uri: window.activeTextEditor!.document.uri.toString() });
+}
+
+export async function registerCommands(client: LanguageClient, context: ExtensionContext) {	// Register the IndexAll command
+	const indexAllCommand = vscode.commands.registerCommand('clice.indexAll', async () => {
+		try {
+			await client.sendNotification('index/all');
+		} catch (error) {
+			vscode.window.showErrorMessage(`Failed to send index/all: ${error}`);
+		}
+	});
+
+	const indexCurrentCommand = vscode.commands.registerCommand('clice.indexCurrent', async () => {
+		try {
+			await client.sendNotification("index/current", { uri: window.activeTextEditor?.document.uri.toString() });
+		} catch (error) {
+			vscode.window.showErrorMessage(`Failed to send index/current: ${error}`);
+		}
+	});
+
+	vscode.commands.registerCommand("clice.currentContext", async () => {
+		let context: HeaderContext = await client.sendRequest("context/current", actionFile());
+		provider!.header = window.activeTextEditor!.document.uri.toString();
+		provider?.update([[context]]);
+	})
+
+	vscode.commands.registerCommand("clice.allContexts", async () => {
+		let contexts = await client.sendRequest("context/all", actionFile());
+		provider!.header = window.activeTextEditor!.document.uri.toString();
+		provider?.update(contexts as Array<Array<HeaderContext>>);
+	})
+
+	vscode.commands.registerCommand("clice.switchContext", async (item: TreeItem) => {
+		let params: HeaderContextSwitchParams = {
+			"header": provider!.header,
+			"context": item!.context!
+		}
+
+		await client.sendRequest("context/switch", params);
+	})
+
+	vscode.commands.registerCommand("clice.resolveContext", async (item: TreeItem) => {
+		let includes: Array<IncludeLocation> = await client.sendRequest("context/resolve", item!.context);
+		item.collapsibleState = vscode.TreeItemCollapsibleState.Expanded;
+		item.children = includes.map((location: IncludeLocation) => {
+			const uri = vscode.Uri.file(location.filename);
+
+			let item = new TreeItem(uri, vscode.TreeItemCollapsibleState.None);
+			item.command = {
+				"title": "Open File",
+				"command": "vscode.open",
+				"arguments": [uri, { "selection": new vscode.Range(location.line, 0, location.line + 1, 0) } as vscode.TextDocumentShowOptions]
+			}
+			return item;
+		});
+
+		provider!.refresh();
+	})
+
+	// Add the command to the context subscriptions
+	context.subscriptions.push(indexAllCommand);
+	context.subscriptions.push(indexCurrentCommand);
+}
 
 export async function activate(context: ExtensionContext) {
 	console.log('Congratulations, your extension "clice" is now active!');
@@ -78,39 +149,10 @@ export async function activate(context: ExtensionContext) {
 		clientOptions
 	);
 
-	// Register the IndexAll command
-	const indexAllCommand = vscode.commands.registerCommand('clice.indexAll', async () => {
-		if (!client) {
-			vscode.window.showErrorMessage('Language client not initialized');
-			return;
-		}
+	provider = new HeaderContextProvider();
+	let treeView = vscode.window.createTreeView("header-contexts", { treeDataProvider: provider });
 
-		try {
-			client.sendNotification('index/all');
-			vscode.window.showInformationMessage('Sent index/all notification to server.');
-		} catch (error) {
-			vscode.window.showErrorMessage(`Failed to send index/all: ${error}`);
-		}
-	});
-
-	const indexCurrentCommand = vscode.commands.registerCommand('clice.indexCurrent', async () => {
-		if (!client) {
-			vscode.window.showErrorMessage('Language client not initialized');
-			return;
-		}
-
-		try {
-			client.sendNotification("index/current", { uri: window.activeTextEditor?.document.uri.toString() });
-			vscode.window.showInformationMessage('Sent index/current notification to server.');
-		} catch (error) {
-			vscode.window.showErrorMessage(`Failed to send index/current: ${error}`);
-		}
-	});
-
-	// Add the command to the context subscriptions
-	context.subscriptions.push(indexAllCommand);
-	context.subscriptions.push(indexCurrentCommand);
-
+	await registerCommands(client, context);
 
 	await client.start();
 

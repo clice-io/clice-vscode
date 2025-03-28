@@ -47,8 +47,49 @@
         "command": "clice.indexCurrent",
         "title": "Index Current File",
         "category": "clice"
+      },
+      {
+        "command": "clice.currentContext",
+        "title": "Get current header context",
+        "category": "clice"
+      },
+      {
+        "command": "clice.switchContext",
+        "title": "Switch",
+        "category": "clice"
+      },
+      {
+        "command": "clice.resolveContext",
+        "title": "Resolve",
+        "category": "clice"
+      },
+      {
+        "command": "clice.allContexts",
+        "title": "Get all header contexts of current header",
+        "category": "clice"
       }
     ],
+    "views": {
+      "explorer": [
+        {
+          "id": "header-contexts",
+          "name": "Header Contexts",
+          "icon": "$(selection)"
+        }
+      ]
+    },
+    "menus": {
+      "view/item/context": [
+        {
+          "command": "clice.switchContext",
+          "when": "viewItem == 'header-context'"
+        },
+        {
+          "command": "clice.resolveContext",
+          "when": "viewItem == 'header-context'"
+        }
+      ]
+    },
     "semanticTokenTypes": [
       {
         "id": "attribute",
