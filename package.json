@@ -1,16 +1,33 @@
 {
-  "name": "vscode-clice",
-  "displayName": "vscode-clice",
+  "name": "clice-vscode",
+  "displayName": "clice",
   "description": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/clice-project/clice-vscode"
+  },
   "version": "0.0.1",
+  "publisher": "ykiko",
+  "icon": "clice.png",
   "engines": {
-    "vscode": "^1.91.0"
+    "vscode": "^1.80.0"
   },
   "categories": [
-    "Other"
+    "Programming Languages",
+    "Linters",
+    "Formatters"
+  ],
+  "keywords": [
+    "C",
+    "C++",
+    "clang",
+    "clangd",
+    "LLVM"
   ],
   "activationEvents": [
-    "onLanguage:cpp"
+    "onLanguage:c",
+    "onLanguage:cpp",
+    "onLanguage:cuda-cpp"
   ],
   "contributes": {
     "configuration": {
