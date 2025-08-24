@@ -1,5 +1,4 @@
 import * as vscode from 'vscode';
-import { window } from 'vscode';
 
 const rainbowColors = [
     "#56B6C2",
@@ -18,7 +17,7 @@ const textEditorDecorationTypes = rainbowColors.map((color) => {
 });
 
 export function highlightDocument(document: vscode.TextDocument, legend: vscode.SemanticTokensLegend, semanticTokens: vscode.SemanticTokens) {
-    const editor = window.activeTextEditor;
+    const editor = vscode.window.activeTextEditor;
     if (!editor || editor.document !== document) { return; }
     const angleIndex = legend?.tokenTypes.indexOf('angle');
     const leftIndex = legend?.tokenModifiers.indexOf('left');

@@ -6,7 +6,7 @@
     "type": "git",
     "url": "https://github.com/clice-project/clice-vscode"
   },
-  "version": "0.0.1",
+  "version": "0.1.0-alpha.1",
   "publisher": "ykiko",
   "icon": "clice.png",
   "engines": {
@@ -54,38 +54,7 @@
         }
       }
     },
-    "commands": [
-      {
-        "command": "clice.indexAll",
-        "title": "Index All Files",
-        "category": "clice"
-      },
-      {
-        "command": "clice.indexCurrent",
-        "title": "Index Current File",
-        "category": "clice"
-      },
-      {
-        "command": "clice.currentContext",
-        "title": "Get current header context",
-        "category": "clice"
-      },
-      {
-        "command": "clice.switchContext",
-        "title": "Switch",
-        "category": "clice"
-      },
-      {
-        "command": "clice.resolveContext",
-        "title": "Resolve",
-        "category": "clice"
-      },
-      {
-        "command": "clice.allContexts",
-        "title": "Get all header contexts of current header",
-        "category": "clice"
-      }
-    ],
+    "commands": [],
     "views": {
       "explorer": [
         {
