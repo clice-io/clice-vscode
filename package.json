@@ -92,9 +92,74 @@
     },
     "semanticTokenTypes": [
       {
+        "id": "character",
+        "description": "C/C++ character literal (e.g., 'a')",
+        "superType": "string"
+      },
+      {
+        "id": "directive",
+        "description": "C/C++ preprocessor directive (e.g., #include)",
+        "superType": "keyword"
+      },
+      {
+        "id": "header",
+        "description": "C/C++ header name (e.g., <iostream>)",
+        "superType": "string"
+      },
+      {
+        "id": "module",
+        "description": "C++20 module name",
+        "superType": "namespace"
+      },
+      {
+        "id": "macroParameter",
+        "description": "C/C++ macro parameter",
+        "superType": "parameter"
+      },
+      {
+        "id": "union",
+        "description": "C/C++ union type",
+        "superType": "struct"
+      },
+      {
+        "id": "field",
+        "description": "C/C++ field (member variable)",
+        "superType": "variable"
+      },
+      {
+        "id": "label",
+        "description": "C/C++ label (for goto)",
+        "superType": "variable"
+      },
+      {
+        "id": "concept",
+        "description": "C++20 concept",
+        "superType": "type"
+      },
+      {
         "id": "attribute",
-        "description": "MSVC/GNU/C++11/C23 attribute",
+        "description": "GNU/MSVC/C++11/C23 attribute",
         "superType": "macro"
+      },
+      {
+        "id": "paren",
+        "description": "Parentheses `()`",
+        "superType": "operator"
+      },
+      {
+        "id": "bracket",
+        "description": "Brackets `[]`",
+        "superType": "operator"
+      },
+      {
+        "id": "brace",
+        "description": "Braces `{}`",
+        "superType": "operator"
+      },
+      {
+        "id": "angle",
+        "description": "Angle brackets `<>`",
+        "superType": "operator"
       }
     ]
   },
