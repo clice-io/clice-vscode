@@ -1,6 +1,8 @@
 import * as vscode from 'vscode';
 import { DocumentUri } from 'vscode-languageclient/node';
 
+let provider: HeaderContextProvider | undefined = undefined;
+
 export type HeaderContext = {
     file: string,
     index: number,
@@ -60,3 +62,9 @@ export class HeaderContextProvider implements vscode.TreeDataProvider<TreeItem> 
     }
 };
 
+
+
+export function registerHeaderContextView() {
+    provider = new HeaderContextProvider();
+    let treeView = vscode.window.createTreeView("header-contexts", { treeDataProvider: provider });
+}
