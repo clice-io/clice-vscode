@@ -29,7 +29,7 @@ jobs:
       - name: Publish to Marketplace (Pre-release)
         if: contains(github.ref, '-')
         env:
-          VSCE_PAT: ${{ secrets.VSCE_TOKEN }}
+          VSCE_PAT: ${{ secrets.VSCE_PAT }}
         run: |
           npm run publish -- -p $VSCE_PAT --pre-release
           npm run package -- --pre-release
@@ -37,7 +37,7 @@ jobs:
       - name: Publish to Marketplace (Stable)
         if: contains(github.ref, '-') == false
         env:
-          VSCE_PAT: ${{ secrets.VSCE_TOKEN }}
+          VSCE_PAT: ${{ secrets.VSCE_PAT }}
         run: |
           npm run publish -- -p $VSCE_PAT
           npm run package
