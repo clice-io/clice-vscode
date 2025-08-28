@@ -1,12 +1,12 @@
 {
   "name": "clice-vscode",
   "displayName": "clice",
-  "description": "",
+  "description": "VSCode extension for clice",
   "repository": {
     "type": "git",
     "url": "https://github.com/clice-project/clice-vscode"
   },
-  "version": "0.0.2",
+  "version": "0.0.3",
   "publisher": "ykiko",
   "icon": "clice.png",
   "engines": {
@@ -20,9 +20,8 @@
   "keywords": [
     "C",
     "C++",
-    "clang",
-    "clangd",
-    "LLVM"
+    "cuda",
+    "clang"
   ],
   "activationEvents": [
     "onLanguage:c",
@@ -55,27 +54,6 @@
       }
     },
     "commands": [],
-    "views": {
-      "explorer": [
-        {
-          "id": "header-contexts",
-          "name": "Header Contexts",
-          "icon": "$(selection)"
-        }
-      ]
-    },
-    "menus": {
-      "view/item/context": [
-        {
-          "command": "clice.switchContext",
-          "when": "viewItem == 'header-context'"
-        },
-        {
-          "command": "clice.resolveContext",
-          "when": "viewItem == 'header-context'"
-        }
-      ]
-    },
     "semanticTokenTypes": [
       {
         "id": "character",
@@ -151,12 +129,11 @@
   },
   "main": "./dist/extension.js",
   "scripts": {
-    "vscode:prepublish": "npm run package",
     "compile": "webpack",
     "watch": "webpack --watch",
-    "package": "webpack --mode production --devtool hidden-source-map",
-    "compile-tests": "tsc -p . --outDir out",
-    "watch-tests": "tsc -p . -w --outDir out",
+    "vscode:prepublish": "webpack --mode production --devtool hidden-source-map",
+    "package": "vsce package --baseImagesUrl https://raw.githubusercontent.com/clice-project/clice-vscode/main/",
+    "publish": "vsce publish --baseImagesUrl https://raw.githubusercontent.com/clice-project/clice-vscode/main/",
     "pretest": "npm run compile-tests && npm run compile && npm run lint",
     "lint": "eslint src --ext ts",
     "test": "vscode-test"
