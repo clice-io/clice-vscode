@@ -6,6 +6,8 @@ interface Setting {
     executable: string,
     resourceDir: string,
     mode: string,
+    host: string,
+    port: number,
     config: string | undefined,
 }
 
@@ -36,6 +38,9 @@ export function getSetting(): Setting | undefined {
         return undefined
     }
 
+    const host = setting.get<string>('host')!;
+    const port = setting.get<number>('port')!;
+
     if (config && !fs.existsSync(config)) {
         vscode.window.showErrorMessage(`Unexpected error, config file not found: ${config}`);
         return undefined
@@ -47,6 +52,6 @@ export function getSetting(): Setting | undefined {
     }
 
     return {
-        executable, resourceDir, mode, config,
+        executable, resourceDir, mode, host, port, config,
     }
 }

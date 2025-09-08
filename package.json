@@ -6,7 +6,7 @@
     "type": "git",
     "url": "https://github.com/clice-project/clice-vscode"
   },
-  "version": "0.1.0",
+  "version": "0.1.1",
   "publisher": "ykiko",
   "icon": "clice.png",
   "engines": {
@@ -49,7 +49,21 @@
         "clice.mode": {
           "type": "string",
           "default": "pipe",
-          "description": "How to communicate with clice. pipe or socket. For daily use, pipe is recommended. Socket is mainly for debugging."
+          "enum": [
+            "pipe",
+            "socket"
+          ],
+          "description": "How to communicate with clice. pipe or socket. For daily use please use pipe."
+        },
+        "clice.host": {
+          "type": "string",
+          "default": "127.0.0.1",
+          "description": "The host to connect to (default: 127.0.0.1)"
+        },
+        "clice.port": {
+          "type": "number",
+          "default": 50051,
+          "description": "The port to connect to"
         }
       }
     },

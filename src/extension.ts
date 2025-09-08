@@ -38,7 +38,7 @@ export async function activate(context: ExtensionContext) {
 		serverOptions = (): Promise<StreamInfo> => {
 			return new Promise((resolve, reject) => {
 				const client = new net.Socket();
-				client.connect(50051, '127.0.0.1', () => {
+				client.connect(setting.port, setting.host, () => {
 					resolve({
 						reader: client,
 						writer: client,
