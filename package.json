@@ -6,7 +6,7 @@
     "type": "git",
     "url": "https://github.com/clice-project/clice-vscode"
   },
-  "version": "0.1.1",
+  "version": "0.1.2",
   "publisher": "ykiko",
   "icon": "clice.png",
   "engines": {
@@ -40,11 +40,6 @@
           "type": "string",
           "default": "",
           "description": "The path of clice executable."
-        },
-        "clice.config": {
-          "type": "string",
-          "default": "",
-          "description": "The path of clice config file."
         },
         "clice.mode": {
           "type": "string",

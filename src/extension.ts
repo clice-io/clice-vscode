@@ -27,9 +27,6 @@ export async function activate(context: ExtensionContext) {
 
 	if (setting.mode === "pipe") {
 		let args = ["--mode=pipe", `--resource-dir=${setting.resourceDir}`];
-		if (setting.config) {
-			args.push(`--config=${setting.config}`);
-		}
 		serverOptions = {
 			run: { command: setting.executable, args: args },
 			debug: { command: setting.executable, args: args }

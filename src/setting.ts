@@ -8,7 +8,6 @@ interface Setting {
     mode: string,
     host: string,
     port: number,
-    config: string | undefined,
 }
 
 export function getSetting(): Setting | undefined {
@@ -41,17 +40,7 @@ export function getSetting(): Setting | undefined {
     const host = setting.get<string>('host')!;
     const port = setting.get<number>('port')!;
 
-    if (config && !fs.existsSync(config)) {
-        vscode.window.showErrorMessage(`Unexpected error, config file not found: ${config}`);
-        return undefined
-    } else if (!config && vscode.workspace.workspaceFolders) {
-        const tmp = path.resolve(vscode.workspace.workspaceFolders[0].uri.fsPath, "clice.toml");
-        if (fs.existsSync(tmp)) {
-            config = tmp;
-        }
-    }
-
     return {
-        executable, resourceDir, mode, host, port, config,
+        executable, resourceDir, mode, host, port,
     }
 }
