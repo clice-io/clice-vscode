@@ -30,7 +30,10 @@
 *.exe
 *.out
 *.app
+*.vsix
 
 # vscode plugin
 dist/
 node_modules/
+.vscode-test/
+out/

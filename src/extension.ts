@@ -26,7 +26,7 @@ export async function activate(context: ExtensionContext) {
 	let serverOptions: ServerOptions | (() => Promise<StreamInfo>);
 
 	if (setting.mode === "pipe") {
-		let args = ["--mode=pipe", `--resource-dir=${setting.resourceDir}`];
+		let args = ["--mode=pipe"];
 		serverOptions = {
 			run: { command: setting.executable, args: args },
 			debug: { command: setting.executable, args: args }
