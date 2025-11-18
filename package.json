@@ -146,8 +146,8 @@
     "pretest": "npm run compile-tests && npm run compile && npm run lint",
     "lint": "eslint src --ext ts",
     "test": "vscode-test",
-    "release:patch": "npm version patch && git push --follow-tags",
-    "release:minor": "npm version minor && git push --follow-tags"
+    "release:patch": "npm version patch -m \"release: v%s\" && git push --follow-tags",
+    "release:minor": "npm version minor -m \"release: v%s\" && git push --follow-tags"
   },
   "devDependencies": {
     "@types/decompress": "^4.2.7",
@@ -156,7 +156,7 @@
     "@types/vscode": "^1.80.0",
     "@typescript-eslint/eslint-plugin": "^7.14.1",
     "@typescript-eslint/parser": "^7.11.0",
-    "@vscode/test-cli": "^0.0.9",
+    "@vscode/test-cli": "^0.0.12",
     "@vscode/test-electron": "^2.4.0",
     "eslint": "^8.57.0",
     "ts-loader": "^9.5.1",
@@ -166,5 +166,8 @@
   },
   "dependencies": {
     "vscode-languageclient": "^9.0.1"
+  },
+  "overrides": {
+    "glob": "^11.1.0"
   }
 }
