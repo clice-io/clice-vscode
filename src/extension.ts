@@ -3,6 +3,7 @@ import * as vscode from 'vscode';
 import { workspace, window, ExtensionContext } from 'vscode';
 import { LanguageClient, LanguageClientOptions, ServerOptions, StreamInfo } from 'vscode-languageclient/node';
 import { getSetting } from './setting';
+import { ensureServerBinary } from './download'
 
 let client: LanguageClient;
 
@@ -23,13 +24,24 @@ export async function activate(context: ExtensionContext) {
 		return;
 	}
 
+	let executable = setting.executable
 	let serverOptions: ServerOptions | (() => Promise<StreamInfo>);
 
 	if (setting.mode === "pipe") {
+		if (!executable || executable === "") {
+			const downloadedPath = await ensureServerBinary(context, channel);
+			if (downloadedPath) {
+				executable = downloadedPath;
+			} else {
+				window.showErrorMessage("Could not find or download clice executable.");
+				return;
+			}
+		}
+
 		let args = ["--mode=pipe"];
 		serverOptions = {
-			run: { command: setting.executable, args: args },
-			debug: { command: setting.executable, args: args }
+			run: { command: executable, args: args },
+			debug: { command: executable, args: args }
 		};
 	} else if (setting.mode == "socket") {
 		serverOptions = (): Promise<StreamInfo> => {

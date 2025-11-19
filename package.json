@@ -165,6 +165,7 @@
     "webpack-cli": "^5.1.4"
   },
   "dependencies": {
+    "decompress": "^4.2.1",
     "vscode-languageclient": "^9.0.1"
   },
   "overrides": {
